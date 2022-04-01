@@ -1,0 +1,48 @@
+<li id="micropost-<%= micropost.id %>">
+<%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+<span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+<span class="content">
+<%= micropost.content %>
+<%= image_tag micropost.image, width: 400 if micropost.image.attached? %>
+</span>
+<span class="timestamp">
+ <%= time_ago_in_words(micropost.created_at) %> ago.
+<% if current_user?(micropost.user) %>
+<%= link_to "delete", micropost, method: :delete,
+data: { confirm: "You sure?" } %>
+<% end %>
+</span>
+</li>
+
+
+<li id="<%= @post %>">
+  <span class="user">
+    <%= @post %>
+  </span>
+  <br>
+  <span class="timestamp text-success">
+    <% if current_user == @post %>
+      <%= link_to "Delete", status, method: :delete, data: {confirm: "You sure?"} %>
+    <% end %>
+  </span></br>
+  <span class="content">
+    <%= @post %></br>
+  </span></br>
+  Comments:</br>
+  <% @post_comments = @post %>
+  <span id="status-comment<%= @post %>">
+  </span>
+  <span id="form-status">
+    <%= form_for StatusComment.new , remote: true do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+        <div class="field">
+          <%= f.hidden_field :@post, value: @post %>
+          <%= f.hidden_field :user_id, value: current_user.id %>
+          <%= f.text_area :content, placeholder: "Compose new comment...", class: "form-control" %>
+        </div>
+      <%= f.submit "Comment", class: "btn btn-primary" %>
+    <% end %>
+  </span>
+</li>
+</br>
+

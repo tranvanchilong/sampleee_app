@@ -1,0 +1,14 @@
+
+User: <%= current_user.name %>
+<%= link_to "Sign out", sign_out_path %></br>
+----------------------------------------------------------
+</br>
+<%= form_for @status, html: {multipart: true} do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, placeholder: "Compose new status...", class: "form-control" %>
+  </div>
+  <%= f.submit "Post", class: "btn btn-primary" %>
+<% end %>
+
+<%= render @statuses %>

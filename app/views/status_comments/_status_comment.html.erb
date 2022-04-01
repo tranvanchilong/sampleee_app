@@ -1,0 +1,9 @@
+<li>
+  <% if status_comment.id %>
+    <%= status_comment.user.name %>:
+    <%= status_comment.content %></br>
+    <%= time_ago_in_words(status_comment.created_at) %>
+    <%= link_to "Delete", status_comment_path(status_comment), method: :delete, data: {confirm: "You sure?"} if current_user == status_comment.user%>
+    </br></br>
+  <% end %>
+</li>
