@@ -3,6 +3,7 @@ class MicropostsController < ApplicationController
     before_action :correct_user, only: :destroy
   
     def create
+      @status = Status.first
       @micropost = current_user.microposts.build(micropost_params)
       @micropost.image.attach(params[:micropost][:image])
       if @micropost.save
