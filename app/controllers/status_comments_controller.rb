@@ -2,7 +2,7 @@ class StatusCommentsController < ApplicationController
   # respond_to :html, :json
 
   def create
-    @status=Status.first
+    byebug
     @status_comment = StatusComment.create! status_comment_params
     respond_to do |format|
       format.html { }

@@ -1,50 +1,50 @@
 <li id="micropost-<%= micropost.id %>">
-<%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
-<span class="user"><%= link_to micropost.user.name, micropost.user %></span>
-<span class="content">
-<%= micropost.content %>
-<%= image_tag micropost.image, width: 400 if micropost.image.attached? %>
-</span>
-<span class="timestamp">
- <%= time_ago_in_words(micropost.created_at) %> ago.
-<% if current_user?(micropost.user) %>
-<%= link_to "delete", micropost, method: :delete,
-data: { confirm: "You sure?" } %>
-<% end %>
-</span>
-</li>
-
-
-<li id="<%= @status.id %>">
-  <span class="user">
-    <%= status.user.name %>
-  </span>
-  <br>
-  <span class="timestamp text-success">
-    <%= "Posted #{time_ago_in_words(status.created_at)} ago." %>
-    <% if current_user == status.user %>
-      <%= link_to "Delete", status, method: :delete, data: {confirm: "You sure?"} %>
-    <% end %>
-  </span></br>
+    <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+  <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content">
-    <%= status.content %></br>
-  </span></br>
-  Comments:</br>
-  <% @status_comments = status.status_comments %>
-  <span id="status-comment<%= status.id %>">
-    <%= render @status_comments %>
+    <%= micropost.content %>
+    <%= image_tag micropost.image, width: 400 if micropost.image.attached? %>
   </span>
-  <span id="form-status">
-    <%= form_for StatusComment.new , remote: true do |f| %>
+  <span class="timestamp">
+    <%= "Posted #{time_ago_in_words(micropost.created_at)} ago." %>
+    <% if current_user?(micropost.user) %>
+      <%= link_to "Delete", micropost_path , method: :delete, data: { confirm: "You sure?" } %>
+    <% end %>
+  </span>
+</li>
+Comments:
+<br/>
+<% micropost.comments.each do |comment| %>
+  <div>
+    <span class="user">
+    <%= link_to gravatar_for(comment.user, size: 50), comment.user %>
+    <%= comment.user.name %>
+    </span>
+    <br>
+    <span class="content">
+      <%= comment.content %>
+    </span>
+    <br />
+    <span class="timestamp text-success">
+      <%= "Commented #{time_ago_in_words(comment.created_at)} ago." %>
+      <% if current_user == comment.user %>
+      <%= link_to "Delete", comment , method: :delete, data: {confirm: "You sure?"} %>
+      <% end %>
+    </span>
+  </div>
+<% end %>
+
+
+<span id="form-status">
+    <%= form_for Comment.new , remote: true do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
         <div class="field">
-          <%= f.hidden_field :status_id, value: @status.id %>
+          <%= f.hidden_field :micropost_id, value: micropost.id %>
           <%= f.hidden_field :user_id, value: current_user.id %>
           <%= f.text_area :content, placeholder: "Compose new comment...", class: "form-control" %>
         </div>
       <%= f.submit "Comment", class: "btn btn-primary" %>
     <% end %>
-  </span>
-</li>
-</br>
+</span>
+
 

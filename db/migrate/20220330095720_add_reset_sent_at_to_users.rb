@@ -1,4 +1,4 @@
-class AddResetSentAtToUsers < ActiveRecord::Migration[7.0]
+class AddResetSentAtToUsers < ActiveRecord::Migration[6.0]
   def change
     
   end

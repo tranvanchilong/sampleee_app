@@ -2,8 +2,8 @@ class StatusesController < ApplicationController
   respond_to :html, :json
 
   def index
-    @statuses = Status.all
-    @status = Status.new
+    @statuses = Micropost.all
+    @status = Micropost.new
   end
 
   def create
@@ -24,7 +24,7 @@ class StatusesController < ApplicationController
   end
 
   private
-  def status_params
-    params.require(:status).permit :content
-  end
+    def status_params
+      params.require(:status).permit :content
+    end
 end
